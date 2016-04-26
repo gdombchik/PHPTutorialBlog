@@ -14,6 +14,9 @@ if($isEntryClicked){
 	
 	//return the printed object to index to see if in browser
 	//return "<pre>$test</pre>";
+	
+	$blogOutput .=include_once "controllers/comments.php";
+	
 }else{
 	//$entries is the PDOStatement returns from getAllEntries
 	$entries = $entryTable->getAllEntries();

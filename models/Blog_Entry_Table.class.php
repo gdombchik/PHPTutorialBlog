@@ -1,13 +1,10 @@
 <?php 
 //complete code listing for models/Blog_Entry_Table.class.php
 
-class Blog_Entry_Table {
-	private $db;
-	
-public function __construct($db){
-		//store the received connection in the $this->db property
-		$this->db = $db;
-	}
+//include parent class definition
+include_once "models/Table.class.php";
+
+class Blog_Entry_Table extends Table{
 	
 	public function saveEntry($title,$entry){
 		$sql = "Insert into blog_entry (title,entry_text) values (?,?);";
@@ -53,15 +50,10 @@ public function __construct($db){
 		return $statement;
 	}
 	
-	private function makeStatement($sql,$data=NULL){
-		$statement = $this->db->prepare($sql);
-		try{
-			$statement->execute($data);
-		}catch (Exception $e){
-			$exceptionMessage = "<p>You tried to run this sql: $sql</p>
-								 <p>Exception: $e</p>";
-			trigger_error($exceptionMessage);
-		}
+	public function searchEntry ($searchTerm){
+		$sql = "Select entry_id, title From blog_entry Where title like ? or entry_text like ?";
+		$data = array("%$searchTerm%","%$searchTerm%");
+		$statement = $this->makeStatement($sql,$data);
 		return $statement;
 	}
 	
